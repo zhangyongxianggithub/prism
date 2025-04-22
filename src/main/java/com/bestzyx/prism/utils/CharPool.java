@@ -8,4 +8,6 @@ package com.bestzyx.prism.utils;
 public final class CharPool {
     
     private CharPool() {}
+    
+    public static char DASH = '-';
 }
