@@ -1,6 +1,11 @@
 package com.bestzyx.prism.utils;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
+
+import com.bestzyx.prism.utils.exception.UnrecognizedLocaleException;
+
+import static com.bestzyx.prism.utils.StringUtils.defaultString;
 
 /**
  * Created by zhangyongxiang on 2025/4/20 18:01
@@ -9,6 +14,9 @@ import java.util.Locale;
  */
 public final class LocaleUtils {
     
+    private static Pattern LOCALE_PATTERN = Pattern.compile(
+            "^(?<language>\\p{Alpha}{2,3})([_\\-](?<region>\\w{2,3}).*)?");
+    
     private LocaleUtils() {}
     
     public static String getLanguage(final Locale locale) {
@@ -16,15 +24,17 @@ public final class LocaleUtils {
     }
     
     public static Locale getLocale(final String locale) {
-        final String[] split = locale.split("[_\\-]", 2);
-        if (split.length >= 2) {
-            return new Locale(split[0], split[1]);
+        final var matcher = LOCALE_PATTERN.matcher(locale);
+        if (matcher.matches()) {
+            return getLocale(matcher.group("language").toLowerCase(),
+                    defaultString(matcher.group("region")).toUpperCase());
         } else {
-            return new Locale(split[0], "");
+            throw new UnrecognizedLocaleException(locale);
         }
     }
     
-    public static Locale getLocale(final String language, final String region) {
+    private static Locale getLocale(final String language,
+            final String region) {
         return new Locale(language, region);
     }
 }
