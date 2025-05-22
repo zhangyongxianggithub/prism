@@ -14,6 +14,42 @@ public final class StringUtils {
     
     private StringUtils() {}
     
+    public static boolean isAlphaNum(final String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isLetterOrDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static boolean isAlphabetic(final String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isLetter(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static boolean isDigit(final String str) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public static String trim(final String str) {
         if (nonNull(str)) {
             return str.trim();
